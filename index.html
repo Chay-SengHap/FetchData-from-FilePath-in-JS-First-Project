@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hab Store</title>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Flowbite (needed for carousel JS) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="bg-blue-400 text-white p-3 sticky top-0 z-50 font-['san-sarif'] " >
+    <nav class="flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold">Hab Store</h1>
+      </div>
+      <div class="flex justify-center items-center gap-1">
+        <input id="search" class="bg-white text-black rounded-lg w-40 p-0.5" type="text" placeholder="Search Product">
+        <button onclick ="product()" id="searchButton" class="bg-white p-0.5 rounded-md">
+          <i class="fa-solid fa-magnifying-glass text-blue-400"></i>
+        </button>
+      </div>
+      <div class="*:text-sm flex gap-5">
+        <a href="#main">Home</a>
+        <a href="#section2">Item</a>
+        <a href="#contactus">Contact Us</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="p-6" id="main">
+
+    <!-- Carousel -->
+    <div id="default-carousel" class="relative w-full" data-carousel="slide">
+      <!-- Carousel wrapper -->
+      <div class="relative h-5 overflow-hidden rounded-lg md:h-96">
+        <!-- Item 1 -->
+        <div class="duration-700 ease-in-out" data-carousel-item="active">
+          <img src="https://i.pinimg.com/1200x/52/fe/58/52fe5828ef8dc63a8242c9f58e378ac3.jpg"
+            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Slide 1">
+        </div>
+        <!-- Item 2 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+          <img src="https://i.pinimg.com/736x/ed/c7/9f/edc79fb6528ede0ebd336bc13b81cdb7.jpg"
+            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Slide 2">
+        </div>
+        <!-- Item 3 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+          <img src="https://i.pinimg.com/736x/fb/6a/fd/fb6afd7e63b70f8474428a580855af9e.jpg"
+            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Slide 3">
+        </div>
+      </div>
+      <!-- Slider indicators -->
+      <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
+        <button type="button" class="w-3 h-3 rounded-full bg-white" aria-current="true"
+          aria-label="Slide 1" data-carousel-slide-to="0"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-white/50" aria-label="Slide 2"
+          data-carousel-slide-to="1"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-white/50" aria-label="Slide 3"
+          data-carousel-slide-to="2"></button>
+      </div>
+      <!-- Slider controls -->
+      <button type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group"
+        data-carousel-prev>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
+          <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M5 1 1 5l4 4" />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group"
+        data-carousel-next>
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
+          <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 9 4-4-4-4" />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    </div>
+
+
+    <section class="mt-10" id="section2">
+
+      
+    </section>
+  </main>
+
+
+
+<footer class="w-auto bg-blue-400 p-12 text-center text-white" id="contactus">
+        <p class="text-2xl">SengHab Store</p>
+        <p class="text-2xl">Contact Me : +855-177-891-95</p>
+        <p class="text-md">Senghab All reserve</p>
+</footer>
+
+  <script>
+    let allproduct = []
+    let alldata = null;
+
+    async function fetchData() {
+
+      try {
+        const response = await fetch('product.json')
+        const data = await response.json()
+
+        allproduct = data
+        displayProduct(data)
+        alldata = data
+        // <div
+        //   class="max-w-xs bg-white border rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+        //   <!-- Image -->
+        //   <img class="w-full h-48 object-cover"
+        //     src="https://imgs.search.brave.com/sK4vxQRgKtsmf71aKXzpTTR2dihhNhmwLktDQUnXwTc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93MC5w/ZWFrcHguY29tL3dh/bGxwYXBlci8yNzAv/NDYzL0hELXdhbGxw/YXBlci10YW5qaXJv/LTIwMjEtYW5pbWUt/ZGVtb24tc2xheWVy/LWZpcmUtaGFzaGly/YS1rYW1hZG8ta2Ft/YWRvLXRhbmppcm8t/a2ltZXRzdS1raW1l/dHN1LW5vLXlhaWJh/LXRodW1ibmFpbC5q/cGc"
+        //     alt="Product Image">
+        
+        //   <!-- Content -->
+        //   <div class="p-4 flex flex-col gap-2">
+        //     <h3 class="text-lg font-semibold text-gray-800">Cool Product</h3>
+        //     <p class="text-sm text-gray-600">This is a short description of the product. It looks clean and modern.</p>
+        //     <p class="text-blue-500 font-bold text-lg">$29.99</p>
+        
+        //     <!-- Buttons -->
+        //     <div class="mt-3 flex gap-2">
+        //       <button class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition">Buy Now</button>
+        //       <button class="flex-1 border border-blue-500 text-blue-500 hover:bg-blue-50 py-2 rounded-lg transition">Add to
+        //         Cart</button>
+        //     </div>
+        //   </div>
+        // </div>
+        
+
+       
+        
+        
+
+
+
+      } catch (error) {
+        console.error(error)
+      }
+
+
+    }
+    const displayProduct = (products)=>{
+        let section2 = document.getElementById('section2')
+        section2.className = "grid grid-cols-4 gap-10 mt-10"
+        
+        
+        section2.innerHTML = ""
+
+        products.forEach(card =>{
+          let div = document.createElement('div')
+            div.className = "max-w-xs bg-white border rounded-2xl shadow-md overflow-hidden   hover:shadow-lg transition-shadow flex flex-col";
+          let forCard = ` <img class="w-full h-48 object-cover"
+           src="${card.image}"
+           alt="Product Image">
+        
+         <!-- Content -->
+          <div class="p-4 flex flex-col gap-2">
+            <h3 class="text-lg font-semibold text-gray-800">${card.title}</h3>
+            <p class="text-sm text-gray-600">${card.description}</p>
+            <p class="text-blue-500 font-bold text-lg">${card.price} $</p>
+        
+            <!-- Buttons -->
+           <div class="mt-3 flex gap-2">
+              <button class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition">Buy Now</button>
+              <button class="flex-1 border border-blue-500 text-blue-500 hover:bg-blue-50 py-2 rounded-lg transition">Add to
+               Cart</button>
+            </div>
+          </div>`
+
+          div.innerHTML = forCard
+          section2.appendChild(div)
+        }
+      
+      
+      
+      )
+      
+
+
+      }
+       const product= ()=>{
+          const search = document.getElementById('search').value.toLowerCase().trim()
+          const filter = allproduct.filter(card =>
+            card.title.toLowerCase().includes(search)
+          )
+          if(search === '' || search.length === 0){
+            displayProduct(alldata)
+          }else{
+            displayProduct(filter)
+          }
+        }
+
+
+    fetchData()
+
+
+  </script>
+</body>
+
+</html>
